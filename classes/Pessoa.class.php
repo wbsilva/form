@@ -34,9 +34,9 @@ class Pessoa
   public function querySeleciona($dados)
   {
     try{
-           $this->idFuncionario = $this->objfc->base64($dado, 2);
+           $this->idpessoa = $dados['idpessoa'];
            $cst = $this->con->conectar()->prepare("SELECT idpessoa, nome, cpf FROM `pessoa` WHERE `idpessoa` = :idpess;");
-           $cst->bindParam(":idpess", $this->idFuncionario, PDO::PARAM_INT);
+           $cst->bindParam(":idpess", $this->idpessoa, PDO::PARAM_INT);
            $cst->execute();
            return $cst->fetch();
        } catch (PDOException $ex) {
@@ -60,7 +60,7 @@ class Pessoa
   public function queryInsert($dados)
   {
     try{
-            $this->nome = $this->objfc->tratarCaracter($dados['nome'], 1);
+            $this->nome = $dados['nome'];
             $this->email = $dados['cpf'];
             $cst = $this->con->conectar()->prepare("INSERT INTO `pessoa` (`nome`, `cpf`) VALUES (:nome, :cpf);");
             $cst->bindParam(":nome", $this->nome, PDO::PARAM_STR);
@@ -79,11 +79,11 @@ class Pessoa
   public function queryUpdate($dados)
   {
     try{
-            $this->idpessoa = $this->objfc->base64($dados['idpessoa'], 2);
-            $this->nome = $this->objfc->tratarCaracter($dados['nome'], 1);
+            $this->idpessoa = $dados['idpessoa'];
+            $this->nome = $dados['nome'];
             $this->cpf = $dados['cpf'];
             $cst = $this->con->conectar()->prepare("UPDATE `pessoa` SET  `nome` = :nome, `cpf` = :cpf WHERE `idpessoa` = :idpess;");
-            $cst->bindParam(":idpess", $this->idFuncionario, PDO::PARAM_INT);
+            $cst->bindParam(":idpess", $this->idpessoa, PDO::PARAM_INT);
             $cst->bindParam(":nome", $this->nome, PDO::PARAM_STR);
             $cst->bindParam(":cpf", $this->email, PDO::PARAM_STR);
             if($cst->execute()){
@@ -100,9 +100,9 @@ class Pessoa
   public function queryDelete($dados)
   {
     try{
-            $this->idFuncionario = $this->objfc->base64($dado, 2);
+            $this->idpessoa = $dados['idpessoa'];
             $cst = $this->con->conectar()->prepare("DELETE FROM `pessoa` WHERE `idpessoa` = :idpess;");
-            $cst->bindParam(":idpess", $this->idFuncionario, PDO::PARAM_INT);
+            $cst->bindParam(":idpess", $this->idpessoa, PDO::PARAM_INT);
             if($cst->execute()){
                 return 'ok';
             }else{
@@ -112,7 +112,6 @@ class Pessoa
             return 'error'.$ex->getMessage();
         }
 
+  }
 }
-
-
 ?>

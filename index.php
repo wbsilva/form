@@ -1,4 +1,9 @@
 <?php
+
+ini_set('display_errors',1);
+ini_set('display_startup_erros',1);
+error_reporting(E_ALL);
+
 require_once 'classes/Pessoa.class.php';
 require_once 'classes/Funcoes.class.php';
 
@@ -47,9 +52,9 @@ if(isset($_GET['acao'])){
 <div id="lista">
     <?php foreach($objFcn->querySelect() as $rst){ ?>
     <div class="pessoa">
-        <div class="nome"><?=$objFcs->tratarCaracter($rst['nome'], 2)?></div>
-        <div class="editar"><a href="?acao=edit&func=<?=$objFcs->base64($rst['idpessoa'], 1)?>" title="Editar dados"><img src="img/ico-editar.png" width="16" height="16" alt="Editar"></a></div>
-        <div class="excluir"><a href="?acao=delet&func=<?=$objFcs->base64($rst['idpessoa'], 1)?>" title="Excluir esse dado"><img src="img/ico-excluir.png" width="16" height="16" alt="Excluir"></a></div>
+        <div class="nome"><?=$rst['nome']?></div>
+        <div class="editar"><a href="?acao=edit&func=<?=$rst['idpessoa']?>" title="Editar dados"><img src="img/ico-editar.png" width="16" height="16" alt="Editar"></a></div>
+        <div class="excluir"><a href="?acao=delet&func=<?=$rst['idpessoa']?>" title="Excluir esse dado"><img src="img/ico-excluir.png" width="16" height="16" alt="Excluir"></a></div>
     </div>
     <?php } ?>
 </div>
@@ -57,9 +62,9 @@ if(isset($_GET['acao'])){
 <div id="formulario">
     <form name="formCad" action="" method="post">
     	<label>Nome: </label><br>
-        <input type="text" name="nome" required="required" value="<?=$objFcs->tratarCaracter((isset($func['nome']))?($func['nome']):(''), 2)?>"><br>
+        <input type="text" name="nome" required="required"><br>
         <label>CPF: </label><br>
-        <input type="text" name="cpf" required="required">"><br>
+        <input type="text" name="cpf" required="required"><br>
         <?php if(isset($_GET['acao']) <> 'edit'){ ?>
         <?php } ?>
         <br>
